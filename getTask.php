@@ -25,8 +25,6 @@ if($event == 'ONTASKADD'){
     $tags = $taskGet['result']['TAGS'][0];
     $deal = $taskGet['result']['UF_CRM_TASK'][0];
 
-    writeToLog($tags . ' ' . $deal);
-
     if(!empty($deal) and $tags != 'Автоматика'){
         preg_match_all("/\d+/", $deal, $matches);
         $deal = $matches[0][0];
@@ -60,9 +58,8 @@ if($event == 'ONTASKADD'){
                     ),
         $domain, $auth, $user);
 
-        writeToLog('Kill BP');
     }else{
-        writeToLog('Nothing to do CREATE');
+
     }
 }else{
     $taskGet = executeREST(
@@ -104,20 +101,9 @@ if($event == 'ONTASKADD'){
         $domain, $auth, $user);
     
     }else{
-    writeToLog('Nothing to do UPDATE');   
+  
     }
 }
-
-
-    // $taskupdate = executeREST(
-    //     'tasks.task.update',
-    //     array(
-    //             'taskId' => $task,		
-    //             'fields' => array (
-    //                 'TAGS' => 'Автоматика',
-    //                 ),
-    //             ),
-    // $domain, $auth, $user);
 
 function executeREST ($method, array $params, $domain, $auth, $user) {
     $queryUrl = 'https://'.$domain.'/rest/'.$user.'/'.$auth.'/'.$method.'.json';
